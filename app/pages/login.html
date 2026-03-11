@@ -1,0 +1,53 @@
+<div style="width: min(94vw, 520px); margin: 0 auto;">
+   <ui-card bg="light" shadow elevation="lg" rounded="true" style="width: 100%; padding: 0;">
+          <div style="padding: 40px;">
+          <h1 style="margin-bottom: 8px; font-size: 28px; text-align: center; font-weight: 700;">Sign In</h1>
+          <p style="margin-bottom: 32px; text-align: center; color: #666; font-size: 14px;">Access your account securely</p>
+
+          <form id="loginForm">
+            <div style="margin-bottom: 20px; text-align: left;">
+              <ui-input
+                id="email"
+                name="email"
+                type="email"
+                label="Email Address"
+                placeholder="you@example.com"
+                icon="mail"
+                icon-position="right"
+                required
+              ></ui-input>
+            </div>
+
+            <div style="margin-bottom: 20px; text-align: left;">
+              <ui-input
+                id="password"
+                name="password"
+                type="password"
+                label="Password"
+                placeholder="••••••••"
+                icon="lock"
+                icon-position="right"
+                required
+              ></ui-input>
+            </div>
+           
+
+            <div id="errorMessage" style="display: none; margin-bottom: 20px; padding: 12px; background-color: #fee; border: 1px solid #fcc; border-radius: 6px; color: #c33; font-size: 13px;"></div>
+
+            <ui-button
+              id="submitBtn"
+              variant="primary"
+              size="lg"
+              style="width: 100%; margin-bottom: 20px;"
+            >
+              Sign In
+            </ui-button>
+          </form>
+
+            <div style="text-align: center; font-size: 13px; border-top: 1px solid #eee; padding-top: 20px;">
+              <p style="margin-bottom: 8px;">New user? <a href="/signup" style="color: #06b6d4; text-decoration: none;">Create account</a></p>
+              <a href="#forgot" style="color: #06b6d4; text-decoration: none;">Forgot password?</a>
+            </div>
+          </div>
+        </ui-card>
+ </div>

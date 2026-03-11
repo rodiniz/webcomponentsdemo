@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "typescript-best-practices": {
+      "source": "ghosttypes/ff-5mp-api-ts",
+      "sourceType": "github",
+      "computedHash": "99c82a21d54ceb32b08c09f2c010eb235a529a34f45eb60e73c4b9f0d3f7f248"
+    }
+  }
+}
