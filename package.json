@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@diniz/webcomponents": "^1.2.10",
+    "@libsql/client": "^0.17.0",
+    "@prisma/adapter-libsql": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "better-auth": "^1.5.4",
     "dotenv": "^17.3.1"

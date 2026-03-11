@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Server: Vite/Nitro (npm run dev)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}",
+            "serverReadyAction": {
+                "pattern": "(http://localhost:[0-9]+)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome"
+            }
+        },
+        {
+            "name": "Client: Chrome (localhost:3000)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Full Stack: Client + Server",
+            "configurations": [
+                "Server: Vite/Nitro (npm run dev)"
+            ]
+        }
+    ]
+}

@@ -10,8 +10,8 @@ const auth = betterAuth({
 
 export default defineEventHandler(async (event) => {
     try {
-        const body = await readBody<{ email: string; password: string; name?: string }>(event);
-        const { email, password, name } = body ?? {};
+        const body = await readBody<{ email: string; password: string }>(event);
+        const { email, password } = body ?? {};
 
         if (!email || !password) {
             throw createError({
@@ -20,21 +20,21 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        const result = await auth.api.signUpEmail({
+        const result = await auth.api.signInEmail({
             body: {
-                name: email,
                 email,
                 password,
             },
         });
 
         return {
-            success: true         
+            success: true,
+            token: result.token           
         };
     } catch (error: any) {
         throw createError({
             statusCode: 500,
-            statusMessage: error.message || "Signup failed",
+            statusMessage: error.message || "Signin failed",
         });
     }
 });

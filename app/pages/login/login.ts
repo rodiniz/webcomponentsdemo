@@ -1,14 +1,12 @@
 import '@diniz/webcomponents';
-import './login.css';
-import { queryElement, type UIButton, type UICheckbox, type UIInput } from '@diniz/webcomponents';
+import { http, queryElement, type UIButton, type UIInput } from '@diniz/webcomponents';
 import template from './login.html?raw';
-type AuthResult = { success: true; message: string } | { success: false; error: string };
+type AuthResult = { success: true; message: string, token: string } | { success: false; error: string };
 
 interface FormElements {
   form: HTMLFormElement;
   emailInput: UIInput;
   passwordInput: UIInput;
-  rememberMeCheckbox: UICheckbox;
   submitBtn: UIButton;
   errorMessage: HTMLDivElement;
 }
@@ -33,15 +31,14 @@ export class LoginPage extends HTMLElement {
     const form = queryElement<HTMLFormElement>(this, '#loginForm');
     const emailInput = queryElement<UIInput>(this, '#email');
     const passwordInput = queryElement<UIInput>(this, '#password');
-    const rememberMeCheckbox = queryElement<UICheckbox>(this, '#rememberMe');
     const submitBtn = queryElement<UIButton>(this, '#submitBtn');
     const errorMessage = queryElement<HTMLDivElement>(this, '#errorMessage');
 
-    if (!form || !emailInput || !passwordInput || !rememberMeCheckbox || !submitBtn || !errorMessage) {
+    if (!form || !emailInput || !passwordInput || !submitBtn || !errorMessage) {
       return null;
     }
 
-    return { form, emailInput, passwordInput, rememberMeCheckbox, submitBtn, errorMessage };
+    return { form, emailInput, passwordInput, submitBtn, errorMessage };
   }
 
   private bindEvents(): void {
@@ -68,11 +65,10 @@ export class LoginPage extends HTMLElement {
 
     try {
       const result = await this.authenticateUser({ email, password });
-
+      
       if (result.success) {
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 500);
+        localStorage.setItem('authToken', result.token);
+        window.location.href = '/home';
       } else {
         this.showError(result.error);
       }
@@ -81,16 +77,8 @@ export class LoginPage extends HTMLElement {
     }
   }
 
-  private authenticateUser(credentials: { email: string; password: string }): Promise<AuthResult> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (credentials.email === 'demo@example.com' && credentials.password === 'password123') {
-          resolve({ success: true, message: 'Login successful' });
-        } else {
-          resolve({ success: false, error: 'Invalid email or password' });
-        }
-      }, 400);
-    });
+  private async authenticateUser(credentials: { email: string; password: string }): Promise<AuthResult> {
+    return await  http.post<AuthResult>('/api/signin', credentials);    
   }
 
   private showError(message: string): void {

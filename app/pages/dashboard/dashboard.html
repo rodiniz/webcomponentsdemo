@@ -1,0 +1,36 @@
+ <ui-layout direction="vertical" >
+      <ui-layout-header>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <strong style="font-size: 0.95rem;">Demo</strong>
+          <div style="display: flex; gap: 8px;">
+            <span style="padding: 4px 10px; border-radius: 999px; background: hsl(var(--muted) / 0.2);">v2.4</span>
+            <span style="padding: 4px 10px; border-radius: 999px; background: hsl(var(--muted) / 0.2);">Staging</span>
+          </div>
+        </div>
+      </ui-layout-header>
+      <ui-layout direction="horizontal" style="flex: 1;">
+        <ui-layout-sidebar style="width: 240px; flex: 0 0 240px; border-right: 1px solid hsl(var(--border)); background: linear-gradient(180deg, hsl(222 47% 22%), hsl(220 52% 14%)); color: rgba(255, 255, 255, 0.78);">
+          <div class="sidebar-label">Workspace</div>
+          <div class="sidebar-section">
+            <div class="sidebar-item">
+                <ui-button style="color: white;" size="sm" icon="database"></ui-button>
+              Overview
+            </div>
+            <div class="sidebar-item">
+          
+              Inventory
+            </div>
+            <div class="sidebar-item">
+             
+              Reports
+            </div>
+          </div>
+        
+        </ui-layout-sidebar>
+        <ui-layout-main style="padding: 20px; background: hsl(var(--muted) / 0.12);">
+            <div id="dashboardOutlet"></div>
+        
+        </ui-layout-main>
+      </ui-layout>
+    
+    </ui-layout>
