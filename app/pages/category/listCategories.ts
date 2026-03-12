@@ -1,7 +1,9 @@
-import type { UIButton, UITable } from "@diniz/webcomponents";
+import type { UIButton, UIModal, UITable } from "@diniz/webcomponents";
 import '@diniz/webcomponents';
 import listCategoriesTemplate from './listCategories.html?raw';
 export class ListCategoriesPage extends HTMLElement {
+    deleteModal:UIModal | null = null;
+    categoryIdToDelete: number | null = null;
     connectedCallback(): void {
         this.innerHTML = listCategoriesTemplate;
         this.style.padding = '20px';
@@ -17,6 +19,8 @@ export class ListCategoriesPage extends HTMLElement {
                 window.location.href = '/dashboard/categories/save';
             });
         }
+
+        this.deleteModal = this.querySelector('ui-modal') as UIModal;       
     }
 
     private async fetchCategories(): Promise<void> {
@@ -29,26 +33,15 @@ export class ListCategoriesPage extends HTMLElement {
                     const editBtn = document.createElement('ui-button');
                     editBtn.textContent = 'Edit';
                     editBtn.addEventListener('click', () => {
-                        window.location.href = `/dashboard/categories/save?id=${row.id}`;
+                        window.location.href = `/dashboard/categories/${row.id}`;
                     });
                     const deleteBtn = document.createElement('ui-button') as UIButton;
                     deleteBtn.variant = 'danger';
                     deleteBtn.textContent = 'Delete';
                     deleteBtn.addEventListener('click', async () => {
-                        if (confirm(`Are you sure you want to delete category "${row.name}"?`)) {
-                            try {   
-                                const response = await fetch(`/api/deletecategory?id=${row.id}`, { method: 'DELETE' });
-                                if (response.ok) {
-                                    alert('Category deleted successfully');
-                                    this.fetchCategories();
-                                } else {
-                                    alert('Failed to delete category');
-                                }  
-                            } catch (error) {
-                                console.error('Error deleting category:', error);
-                                alert('An error occurred while deleting the category');
-                            }
-                        }
+                        if (this.deleteModal) {
+                            this.deleteModal.open();
+                           }
                     });
                     const container = document.createElement('div');
                     container.style.display = 'flex';
@@ -57,7 +50,7 @@ export class ListCategoriesPage extends HTMLElement {
                     container.appendChild(deleteBtn);
                     return container;                  
                 }}
-        ];
+            ];    
 
         try {
             const response = await fetch('/api/listcategories');
@@ -67,12 +60,34 @@ export class ListCategoriesPage extends HTMLElement {
             console.error('Error fetching categories:', error);
         }
     }
+    showDeleteConfirm(categoryId:number):void {
+       this.categoryIdToDelete = categoryId;
+         if(this.deleteModal){
+            this.deleteModal.open();
+            }
 
-    private renderCategories(categories: { id: number; name: string; description: string }[]): void {
+    }
+    renderCategories(categories: { id: number; name: string; description: string }[]): void {
         const table = document.querySelector('ui-table') as UITable;
         if (table) {
             table.rows = categories;
         }
+    }
+    cancelForm(): void {
+        if(this.deleteModal){
+            this.deleteModal.close();
+            }
+    }
+    async confirmDeletion(): Promise<void> {
+        if (!this.categoryIdToDelete) return;
+
+        await fetch(`/api/deletecategory/${this.categoryIdToDelete}`, {
+            method: 'DELETE',
+        });
+        if(this.deleteModal){
+            this.deleteModal.close();
+        }
+        this.fetchCategories();
     }
 }
 customElements.define('list-categories-page', ListCategoriesPage);

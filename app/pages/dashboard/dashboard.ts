@@ -32,6 +32,7 @@ export class DashboardPage extends HTMLElement {
 		 createRouter([
 			 { path: '/categories', component: 'list-categories-page', load: () => import('../category/listCategories') },		
 			 { path: '/categories/save', component: 'save-category-page', load: () => import('../category/savecategory') },
+			 { path: '/categories/:id', component: 'save-category-page', load: () => import('../category/savecategory') },
 			], {
 				outlet:   '#dashboard-outlet', 
 				basePath: '/dashboard',        

@@ -3,3 +3,11 @@
 </div>
 
 <ui-table></ui-table>
+
+<ui-modal title="" size="md">
+   Are you sure you want to perform this action? 
+  <div slot="footer">
+    <ui-button variant="ghost" onclick="cancelForm()">Cancel</ui-button>
+    <ui-button variant="primary" onclick="confirmDeletion()">Confirm</ui-button>
+  </div>
+</ui-modal>
