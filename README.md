@@ -30,6 +30,8 @@ The demo uses the following components and utilities:
 - `ui-layout-header`
 - `ui-layout-sidebar`
 - `ui-layout-main`
+- `ui-pagination`
+
 
 ### Utilities
 
