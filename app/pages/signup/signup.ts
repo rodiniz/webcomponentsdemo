@@ -1,14 +1,15 @@
 import '@diniz/webcomponents';
 import './signup.css';
 import template from './signup.html?raw';
-import { getFormValues, http } from '@diniz/webcomponents';
+import { getFormValues, http, UIToast } from '@diniz/webcomponents';
 
 export class SignupPage extends HTMLElement {
     connectedCallback() {
         this.innerHTML = template;
         const form = this.querySelector('#signupForm') as HTMLFormElement | null;
+        const toast = this.querySelector('#signupToast') as UIToast;
         if (!form) {
-            console.error('Signup form not found in template.');
+            toast.error('Signup form not found in template.');
             return;
         }
 
@@ -17,7 +18,8 @@ export class SignupPage extends HTMLElement {
             const { email, password } = getFormValues(form);
             const result = await http.post('/api/signup', { email, password });
             if (result.success) {
-                alert('Signup successful! You can now log in.');
+                toast.success('Signup successful! Redirecting to login...');
+                window.location.href = '/login';
             }
         });
     }

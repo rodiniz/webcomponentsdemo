@@ -1,0 +1,37 @@
+<div style="width: min(94vw, 640px); margin: 0 auto; padding: 20px 0;">
+	<ui-card bg="light" shadow elevation="lg" rounded="true" style="width: 100%; padding: 0;">
+		<div style="padding: 24px;">
+			<h2 id="categoryFormTitle" style="margin: 0 0 20px 0;">Create Category</h2>
+
+			<form id="categoryForm">
+				<div style="margin-bottom: 16px;">
+					<ui-input
+						id="categoryName"
+						name="name"
+						type="text"
+						label="Category Name"
+						placeholder="Enter category name"
+						required
+					></ui-input>
+				</div>
+
+				<div style="margin-bottom: 20px;">
+					<ui-input
+						id="categoryDescription"
+						name="description"
+						type="text"
+						label="Description"
+						placeholder="Enter category description"
+					></ui-input>
+				</div>
+
+				<div id="categoryError" style="display: none; margin-bottom: 16px;"></div>
+
+				<div style="display: flex; justify-content: flex-end; gap: 12px;">
+					<ui-button id="cancelCategoryBtn" type="button" variant="outline" size="sm">Cancel</ui-button>
+					<ui-button id="saveCategoryBtn" type="submit" variant="primary" size="sm">Save Category</ui-button>
+				</div>
+			</form>
+		</div>
+	</ui-card>
+</div>

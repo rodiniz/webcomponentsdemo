@@ -68,7 +68,7 @@ export class LoginPage extends HTMLElement {
       
       if (result.success) {
         localStorage.setItem('authToken', result.token);
-        window.location.href = '/home';
+        window.location.href = '/dashboard/categories';
       } else {
         this.showError(result.error);
       }
