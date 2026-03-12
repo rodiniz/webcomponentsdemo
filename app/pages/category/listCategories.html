@@ -1,13 +1,15 @@
-<div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
-   <ui-button size="sm" variant="primary">Create Category</ui-button>
+<div style="margin-bottom: 16px;">
+   <ui-button size="lg" variant="primary">Create Category</ui-button>
 </div>
 
 <ui-table></ui-table>
 
-<ui-modal title="" size="md">
+<ui-modal title="Confirm Deletion" size="md">
    Are you sure you want to perform this action? 
   <div slot="footer">
-    <ui-button variant="ghost" onclick="cancelForm()">Cancel</ui-button>
-    <ui-button variant="primary" onclick="confirmDeletion()">Confirm</ui-button>
+    <ui-button variant="ghost" id="cancel-action" >Cancel</ui-button>
+    <ui-button variant="primary" id="confirm-action" >Confirm</ui-button>
   </div>
 </ui-modal>
+
+<ui-toast id="toast" position="top-right"></ui-toast>

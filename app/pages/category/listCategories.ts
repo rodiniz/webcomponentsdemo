@@ -1,9 +1,11 @@
-import type { UIButton, UIModal, UITable } from "@diniz/webcomponents";
+import type { UIButton, UIModal, UITable, UIToast } from "@diniz/webcomponents";
 import '@diniz/webcomponents';
 import listCategoriesTemplate from './listCategories.html?raw';
+
 export class ListCategoriesPage extends HTMLElement {
     deleteModal:UIModal | null = null;
     categoryIdToDelete: number | null = null;
+    toast: UIToast | null = null;
     connectedCallback(): void {
         this.innerHTML = listCategoriesTemplate;
         this.style.padding = '20px';
@@ -20,7 +22,18 @@ export class ListCategoriesPage extends HTMLElement {
             });
         }
 
+        const cancelBtn = this.querySelector('#cancel-action') as UIButton | null;
+        const confirmBtn = this.querySelector('#confirm-action') as UIButton | null;
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => this.cancelForm());
+        }
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', () => this.confirmDeletion());
+        }
+
         this.deleteModal = this.querySelector('ui-modal') as UIModal;       
+        this.toast = this.querySelector('ui-toast') as UIToast;
+
     }
 
     private async fetchCategories(): Promise<void> {
@@ -30,6 +43,7 @@ export class ListCategoriesPage extends HTMLElement {
                 { key: 'name', label: 'Name', sortable: true },
                 { key: 'description', label: 'Description', sortable: true },
                 { key: 'actions', label: 'Actions', sortable: false, template: (row) => {
+                    this.categoryIdToDelete = row.id;
                     const editBtn = document.createElement('ui-button');
                     editBtn.textContent = 'Edit';
                     editBtn.addEventListener('click', () => {
@@ -57,7 +71,9 @@ export class ListCategoriesPage extends HTMLElement {
             const data = await response.json();
             this.renderCategories(data.categories);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            if (this.toast) {
+                this.toast.error(`Error fetching categories: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            }
         }
     }
     showDeleteConfirm(categoryId:number):void {
@@ -79,14 +95,21 @@ export class ListCategoriesPage extends HTMLElement {
             }
     }
     async confirmDeletion(): Promise<void> {
-        if (!this.categoryIdToDelete) return;
-
-        await fetch(`/api/deletecategory/${this.categoryIdToDelete}`, {
-            method: 'DELETE',
-        });
         if(this.deleteModal){
             this.deleteModal.close();
         }
+        if (!this.categoryIdToDelete) return;
+
+        const response = await fetch(`/api/deletecategory/${this.categoryIdToDelete}`, {
+            method: 'DELETE',
+        }).then(r => r.json());
+        if (!response.success) {
+            if (this.toast) {
+                this.toast.error(`Failed to delete category: ${response.statusMessage || 'Unknown error'}`);
+            }
+            return;
+        }
+      
         this.fetchCategories();
     }
 }

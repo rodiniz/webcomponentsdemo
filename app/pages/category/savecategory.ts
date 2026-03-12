@@ -1,4 +1,4 @@
-import { type UIButton, type UIInput } from '@diniz/webcomponents';
+import { getPathParams, type UIButton, type UIInput } from '@diniz/webcomponents';
 import '@diniz/webcomponents';
 import template from "./savecategory.html?raw";
 
@@ -12,19 +12,19 @@ export class SaveCategoryPage extends HTMLElement {
     private categoryId: number | null = null;
 
     connectedCallback(): void {
-        this.innerHTML = template;
+        this.innerHTML = template;       
         this.readRouteParams();
         this.updateFormMode();
         this.bindEvents();
         if (this.categoryId !== null) {
-            void this.loadCategory(this.categoryId);
+            this.loadCategory(this.categoryId);
         }
     }
 
     private readRouteParams(): void {
-        const params = new URLSearchParams(window.location.search);
-        const idFromQuery = Number(params.get('id'));
-        this.categoryId = Number.isFinite(idFromQuery) && idFromQuery > 0 ? idFromQuery : null;
+        debugger;
+        const params = getPathParams('/dashboard/categories/:id', location.pathname);
+        this.categoryId = params?.id ? Number(params.id) : null;
     }
 
     private updateFormMode(): void {
@@ -116,6 +116,7 @@ export class SaveCategoryPage extends HTMLElement {
 
     private async loadCategory(id: number): Promise<void> {
         try {
+            debugger;
             const response = await fetch(`/api/category/${id}`);
             const data = await response.json() as { category?: Category };
             const category = data.category;

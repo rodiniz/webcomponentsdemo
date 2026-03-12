@@ -10,19 +10,13 @@
       </ui-layout-header>
       <ui-layout direction="horizontal" style="flex: 1;">
         <ui-layout-sidebar style="width: 240px; flex: 0 0 240px; border-right: 1px solid hsl(var(--border)); background: linear-gradient(180deg, hsl(222 47% 22%), hsl(220 52% 14%)); color: rgba(255, 255, 255, 0.78);">
-          <div class="sidebar-label">Workspace</div>
-          <div class="sidebar-section">
-            <div class="sidebar-item">
-                 <i data-feather="circle"></i>
-              Overview
-            </div>
-            <div class="sidebar-item">
-          
-              Inventory
-            </div>
-           
-          </div>
-        
+          <nav class="sidebar-nav" aria-label="Main navigation">
+            <div class="sidebar-section-label">Menu</div>
+            <a class="sidebar-nav-item" href="/dashboard/categories" data-nav-link>
+              <i data-feather="tag"></i>
+              <span>Categories</span>
+            </a>
+          </nav>
         </ui-layout-sidebar>
         <ui-layout-main style="padding: 20px; background: hsl(var(--muted) / 0.12);">
            <div id="dashboard-outlet"></div>        

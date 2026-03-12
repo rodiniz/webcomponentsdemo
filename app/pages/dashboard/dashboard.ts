@@ -1,5 +1,6 @@
 import '@diniz/webcomponents';
 import dashboardTemplate from './dashboard.html?raw';
+import './dashboard.css';
 import { createRouter, getIconSvg, UILayoutSidebar } from '@diniz/webcomponents';
 
 export class DashboardPage extends HTMLElement {
@@ -37,6 +38,15 @@ export class DashboardPage extends HTMLElement {
 				outlet:   '#dashboard-outlet', 
 				basePath: '/dashboard',        
 			});
+
+		const updateActiveLinks = () => {
+			this.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach(link => {
+				const isActive = window.location.pathname.startsWith(link.getAttribute('href') ?? '');
+				link.classList.toggle('active', isActive);
+			});
+		};
+		updateActiveLinks();
+		window.addEventListener('popstate', updateActiveLinks);
 		
 	}
 
