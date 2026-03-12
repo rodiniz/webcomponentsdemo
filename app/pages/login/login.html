@@ -1,54 +1,107 @@
-<div style="width: min(94vw, 520px); margin: 0 auto;">
-   <ui-card bg="light" shadow elevation="lg" rounded="true" style="width: 100%; padding: 0;">
-          <div style="padding: 40px;">
-          <h1 style="margin-bottom: 8px; font-size: 28px; text-align: center; font-weight: 700;">Sign In</h1>
-          <p style="margin-bottom: 32px; text-align: center; color: #666; font-size: 14px;">Access your account securely</p>
+<div class="auth-shell">
 
-          <form id="loginForm">
-            <div style="margin-bottom: 20px; text-align: left;">
-              <ui-input
-                id="email"
-                name="email"
-                type="email"
-                label="Email Address"
-                placeholder="you@example.com"
-                icon="mail"
-                icon-position="right"
-                required
-              ></ui-input>
-            </div>
+  <!-- Left decorative brand panel -->
+  <div class="auth-panel auth-panel--brand" aria-hidden="true">
+    <div class="brand-grid"></div>
+    <div class="brand-orb brand-orb--1"></div>
+    <div class="brand-orb brand-orb--2"></div>
+    <div class="brand-orb brand-orb--3"></div>
+    <div class="brand-content">
+      <div class="brand-logo">
+        <svg class="brand-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.9"/>
+          <rect x="18" y="2" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.4"/>
+          <rect x="2" y="18" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.4"/>
+          <rect x="18" y="18" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.9"/>
+        </svg>
+        <span class="brand-wordmark">DEMO</span>
+      </div>
+      <h2 class="brand-headline">Your workspace,<br>beautifully<br>organized.</h2>
+      <p class="brand-sub">Everything you need. Nothing you don't.</p>
+      <div class="brand-divider"></div>
+      <div class="brand-stats">
+        <div class="brand-stat">
+          <span class="stat-val">Fast</span>
+          <span class="stat-label">Performance</span>
+        </div>
+        <div class="brand-stat-sep"></div>
+        <div class="brand-stat">
+          <span class="stat-val">Secure</span>
+          <span class="stat-label">By design</span>
+        </div>
+        <div class="brand-stat-sep"></div>
+        <div class="brand-stat">
+          <span class="stat-val">Simple</span>
+          <span class="stat-label">Interface</span>
+        </div>
+      </div>
+    </div>
+    <div class="brand-scan"></div>
+  </div>
 
-            <div style="margin-bottom: 20px; text-align: left;">
-              <ui-input
-                id="password"
-                name="password"
-                type="password"
-                label="Password"
-                placeholder="••••••••"
-                icon="lock"
-                icon-position="right"
-                required
-              ></ui-input>
-            </div>
-           
+  <!-- Right form panel -->
+  <div class="auth-panel auth-panel--form">
+    <div class="form-container">
 
-            <div id="errorMessage" style="display: none; margin-bottom: 20px; padding: 12px; background-color: #fee; border: 1px solid #fcc; border-radius: 6px; color: #c33; font-size: 13px;"></div>
+      <div class="form-eyebrow">
+        <svg class="form-eyebrow-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.9"/>
+          <rect x="18" y="2" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.4"/>
+          <rect x="2" y="18" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.4"/>
+          <rect x="18" y="18" width="12" height="12" rx="2" fill="#00c9a7" opacity="0.9"/>
+        </svg>
+        <span>DEMO</span>
+      </div>
 
-            <ui-button
-              type="submit"
-              id="submitBtn"
-              variant="primary"
-              size="lg"
-              style="width: 100%; margin-bottom: 20px;"
-            >
-              Sign In
-            </ui-button>
-          </form>
+      <div class="form-header">
+        <h1 class="form-title">Welcome back</h1>
+        <p class="form-subtitle">Sign in to continue to your workspace</p>
+      </div>
 
-            <div style="text-align: center; font-size: 13px; border-top: 1px solid #eee; padding-top: 20px;">
-              <p style="margin-bottom: 8px;">New user? <a href="/signup" style="color: #06b6d4; text-decoration: none;">Create account</a></p>
-              <a href="#forgot" style="color: #06b6d4; text-decoration: none;">Forgot password?</a>
-            </div>
-          </div>
-        </ui-card>
- </div>
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="field-group">
+          <ui-input
+            id="email"
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="you@example.com"
+            icon="mail"
+            icon-position="right"
+            required
+          ></ui-input>
+        </div>
+
+        <div class="field-group">
+          <ui-input
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="••••••••"
+            icon="lock"
+            icon-position="right"
+            required
+          ></ui-input>
+        </div>
+
+        <div id="errorMessage" class="auth-error" role="alert" aria-live="polite"></div>
+
+        <ui-button
+          type="submit"
+          id="submitBtn"
+          variant="primary"
+          size="lg"
+          class="auth-submit"
+        >Sign In</ui-button>
+      </form>
+
+      <div class="form-footer">
+        <span>New here?</span>
+        <a href="/signup" class="form-link">Create an account →</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>

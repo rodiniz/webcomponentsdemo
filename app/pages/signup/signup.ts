@@ -1,25 +1,48 @@
 import '@diniz/webcomponents';
 import './signup.css';
 import template from './signup.html?raw';
-import { getFormValues, http, UIToast } from '@diniz/webcomponents';
+import { getFormValues, http, queryElement, UIToast } from '@diniz/webcomponents';
 
 export class SignupPage extends HTMLElement {
     connectedCallback() {
         this.innerHTML = template;
         const form = this.querySelector('#signupForm') as HTMLFormElement | null;
         const toast = this.querySelector('#signupToast') as UIToast;
-        if (!form) {
-            toast.error('Signup form not found in template.');
-            return;
-        }
+        const submitBtn = this.querySelector('#submitBtn') as any;
+        const errorEl = queryElement<HTMLDivElement>(this, '#errorMessage');
+
+        if (!form) return;
+
+        const showError = (msg: string) => {
+            if (!errorEl) return;
+            errorEl.textContent = msg;
+            errorEl.classList.remove('visible');
+            void errorEl.offsetWidth; // reflow to replay shake
+            errorEl.classList.add('visible');
+        };
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const { email, password } = getFormValues(form);
-            const result = await http.post('/api/signup', { email, password });
-            if (result.success) {
-                toast.success('Signup successful! Redirecting to login...');
-                window.location.href = '/login';
+            const { name, email, password } = getFormValues(form);
+
+            if (!email || !password) {
+                showError('Email and password are required.');
+                return;
+            }
+
+            if (submitBtn) submitBtn.loading = true;
+            try {
+                const result = await http.post<{ success: boolean }>('/api/signup', { name, email, password });
+                if (result.success) {
+                    toast.success('Account created! Redirecting...');
+                    setTimeout(() => { window.location.href = '/'; }, 1200);
+                } else {
+                    showError('Signup failed. Please try again.');
+                }
+            } catch {
+                showError('Something went wrong. Please try again.');
+            } finally {
+                if (submitBtn) submitBtn.loading = false;
             }
         });
     }

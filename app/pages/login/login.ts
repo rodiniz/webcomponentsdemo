@@ -1,4 +1,5 @@
 import '@diniz/webcomponents';
+import './login.css';
 import { http, queryElement, type UIButton, type UIInput } from '@diniz/webcomponents';
 import template from './login.html?raw';
 type AuthResult = { success: true; message: string, token: string } | { success: false; error: string };
@@ -84,12 +85,14 @@ export class LoginPage extends HTMLElement {
   private showError(message: string): void {
     if (!this.elements) return;
     this.elements.errorMessage.textContent = message;
-    this.elements.errorMessage.style.display = 'block';
+    this.elements.errorMessage.classList.add('visible');
+    // force reflow so shake animation replays
+    void this.elements.errorMessage.offsetWidth;
   }
 
   private clearError(): void {
     if (!this.elements) return;
-    this.elements.errorMessage.style.display = 'none';
+    this.elements.errorMessage.classList.remove('visible');
   }
 
   private setSubmitLoading(loading: boolean): void {

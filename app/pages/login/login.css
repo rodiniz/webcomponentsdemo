@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 /* ── Reset host and app container ─────────────────────────────── */
-signup-page {
+login-page {
   display: block;
   width: 100%;
   min-height: 100vh;
 }
 
-#app {
+login-page #app,
+#app:has(login-page) {
   width: 100%;
   max-width: none;
   padding: 0;
@@ -30,7 +31,7 @@ signup-page {
   position: relative;
   flex: 1;
   overflow: hidden;
-    background: linear-gradient(145deg, #0e1f1a 0%, #172e25 55%, #0c1d17 100%);
+    background: linear-gradient(145deg, #111827 0%, #1a2b42 55%, #0f1e32 100%);
 }
 
 @media (min-width: 900px) {
@@ -59,31 +60,31 @@ signup-page {
   pointer-events: none;
 }
 .brand-orb--1 {
-  width: 480px; height: 480px;
-  bottom: -120px; right: -120px;
-  background: radial-gradient(circle, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
-  animation: orb-drift 10s ease-in-out infinite;
+  width: 500px; height: 500px;
+  top: -150px; left: -150px;
+  background: radial-gradient(circle, rgba(0, 201, 167, 0.14) 0%, transparent 65%);
+  animation: orb-drift 9s ease-in-out infinite;
 }
 .brand-orb--2 {
-  width: 360px; height: 360px;
-  top: -80px; left: -80px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 65%);
-  animation: orb-drift 8s ease-in-out infinite reverse;
+  width: 380px; height: 380px;
+  bottom: -100px; right: -80px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 65%);
+  animation: orb-drift 12s ease-in-out infinite reverse;
 }
 .brand-orb--3 {
-  width: 220px; height: 220px;
-  top: 40%; right: 15%;
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.08) 0%, transparent 65%);
-  animation: orb-drift 6s ease-in-out infinite 1.5s;
+  width: 240px; height: 240px;
+  bottom: 30%; left: 10%;
+  background: radial-gradient(circle, rgba(0, 201, 167, 0.07) 0%, transparent 65%);
+  animation: orb-drift 7s ease-in-out infinite 2s;
 }
 
 @keyframes orb-drift {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(18px, -25px) scale(1.04); }
-  66%       { transform: translate(-14px, 16px) scale(0.97); }
+  33%       { transform: translate(20px, -30px) scale(1.05); }
+  66%       { transform: translate(-16px, 18px) scale(0.97); }
 }
 
-/* Scanning line */
+/* Scanning line effect */
 .brand-scan {
   position: absolute;
   inset: 0;
@@ -94,7 +95,7 @@ signup-page {
     transparent 100%
   );
   background-size: 100% 200%;
-  animation: scan 7s linear infinite;
+  animation: scan 6s linear infinite;
   pointer-events: none;
 }
 @keyframes scan {
@@ -153,34 +154,33 @@ signup-page {
   margin-bottom: 32px;
 }
 
-.brand-features {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.brand-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.brand-stat {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 2px;
 }
-.brand-features li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.875rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.55);
+.brand-stat-sep {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 24px;
 }
-.feature-check {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(0, 201, 167, 0.15);
+.stat-val {
+  font-size: 0.9rem;
+  font-weight: 600;
   color: #00c9a7;
-  font-size: 0.65rem;
-  font-weight: 700;
-  flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+.stat-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 /* ── Form panel (right) ────────────────────────────────────────── */
@@ -278,7 +278,7 @@ signup-page {
   40%, 80%  { transform: translateX(5px); }
 }
 
-/* Submit button */
+/* Submit button override */
 .auth-submit {
   width: 100%;
   margin-top: 6px;
