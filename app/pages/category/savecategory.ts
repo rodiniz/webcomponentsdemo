@@ -22,8 +22,12 @@ export class SaveCategoryPage extends HTMLElement {
     }
 
     private readRouteParams(): void {
-        debugger;
+      
         const params = getPathParams('/dashboard/categories/:id', location.pathname);
+        if(isNaN(Number(params?.id))){
+            this.categoryId = null;
+            return;
+        }
         this.categoryId = params?.id ? Number(params.id) : null;
     }
 
