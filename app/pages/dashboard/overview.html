@@ -1,0 +1,37 @@
+<div style="display: flex; flex-direction: column; gap: 14px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+    <h2 style="margin: 0; font-size: 1.1rem;">Dashboard</h2>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <ui-date-picker id="dashboard-date-from" placeholder="From"></ui-date-picker>
+      <ui-date-picker id="dashboard-date-to" placeholder="To"></ui-date-picker>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+    <ui-card bg="light" rounded="true" style="padding: 12px 14px; text-align: center;">
+      <div id="income-total" style="font-size: 1.4rem; font-weight: 700; color: hsl(221 83% 61%);">$0.00</div>
+      <div style="font-size: 0.8rem; opacity: 0.7;">Income</div>
+    </ui-card>
+    <ui-card bg="light" rounded="true" style="padding: 12px 14px; text-align: center;">
+      <div id="expense-total" style="font-size: 1.4rem; font-weight: 700; color: hsl(353 84% 67%);">$0.00</div>
+      <div style="font-size: 0.8rem; opacity: 0.7;">Expenses</div>
+    </ui-card>
+    <ui-card bg="light" rounded="true" style="padding: 12px 14px; text-align: center;">
+      <div id="balance-total" style="font-size: 1.4rem; font-weight: 700; color: hsl(109 44% 56%);">$0.00</div>
+      <div style="font-size: 0.8rem; opacity: 0.7;">Balance</div>
+    </ui-card>
+    <ui-card bg="light" rounded="true" style="padding: 12px 14px; text-align: center;">
+      <div id="transaction-count" style="font-size: 1.4rem; font-weight: 700; color: hsl(197 74% 65%);">0</div>
+      <div style="font-size: 0.8rem; opacity: 0.7;">Transactions</div>
+    </ui-card>
+  </div>
+
+  <ui-card bg="light" rounded="true" style="padding: 14px;">
+    <div style="font-size: 0.95rem; font-weight: 600; margin-bottom: 6px;">Total Expenses</div>
+    <div id="overview-range-label" style="font-size: 0.75rem; opacity: 0.7; margin-bottom: 12px;">All dates</div>
+
+    <div style="height: 300px; border: 1px solid hsl(var(--border)); border-radius: 10px; background: hsl(var(--muted) / 0.08); padding: 12px;">
+      <canvas id="expenses-by-category-chart" aria-label="Expenses by category" role="img" style="width: 100%; height: 100%;"></canvas>
+    </div>
+  </ui-card>
+</div>

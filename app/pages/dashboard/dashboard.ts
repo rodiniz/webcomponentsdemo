@@ -31,6 +31,7 @@ export class DashboardPage extends HTMLElement {
 
 		
 		 createRouter([
+			 { path: '/', component: 'dashboard-overview-page', load: () => import('./overview') },
 			 { path: '/categories', component: 'list-categories-page', load: () => import('../category/listCategories') },		
 			 { path: '/categories/save', component: 'save-category-page', load: () => import('../category/savecategory') },
 			 { path: '/categories/:id', component: 'save-category-page', load: () => import('../category/savecategory') },
@@ -47,7 +48,11 @@ export class DashboardPage extends HTMLElement {
 
 		const updateActiveLinks = () => {
 			this.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach(link => {
-				const isActive = window.location.pathname.startsWith(link.getAttribute('href') ?? '');
+				const href = link.getAttribute('href') ?? '';
+				const isDashboardRoot = href === '/dashboard';
+				const isActive = isDashboardRoot
+					? window.location.pathname === '/dashboard'
+					: window.location.pathname.startsWith(href);
 				link.classList.toggle('active', isActive);
 			});
 		};

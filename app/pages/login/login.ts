@@ -69,7 +69,7 @@ export class LoginPage extends HTMLElement {
       
       if (result.success) {
         localStorage.setItem('authToken', result.token);
-        window.location.href = '/dashboard/categories';
+        window.location.href = '/dashboard';
       } else {
         this.showError(result.error);
       }
@@ -97,9 +97,7 @@ export class LoginPage extends HTMLElement {
 
   private setSubmitLoading(loading: boolean): void {
     if (!this.elements) return;
-    (this.elements.submitBtn as any).loading = loading;
-    (this.elements.emailInput as any).disabled = loading;
-    (this.elements.passwordInput as any).disabled = loading;
+    this.elements.submitBtn.isProcessing = loading;
   }
 }
 
