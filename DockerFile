@@ -6,7 +6,7 @@ ENV HOST=0.0.0.0
 ENV PORT=3000
 ENV DATABASE_URL=file:./data/app.db
 ENV BETTER_AUTH_URL=http://localhost:3000
-ENV BETTER_AUTH_SECRET=local-docker-dev-secret-please-change
+ENV BETTER_AUTH_SECRET=e0k2Jhf7HrH75pV4YA6aYRQY0TlzeiJZ
 
 COPY package*.json ./
 RUN npm config set strict-ssl false \
