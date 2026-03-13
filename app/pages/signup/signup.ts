@@ -1,7 +1,7 @@
 import '@diniz/webcomponents';
 import './signup.css';
 import template from './signup.html?raw';
-import { getFormValues, http, queryElement, UIToast, validateForm } from '@diniz/webcomponents';
+import { getFormValues, http, queryElement, UIButton, UIToast, validateForm } from '@diniz/webcomponents';
 import { showFormError } from '../shared/formErrorDisplay';
 import { getFirstValidationError } from '../shared/formValidation';
 
@@ -10,7 +10,7 @@ export class SignupPage extends HTMLElement {
         this.innerHTML = template;
         const form = this.querySelector('#signupForm') as HTMLFormElement | null;
         const toast = this.querySelector('#signupToast') as UIToast;
-        const submitBtn = this.querySelector('#submitBtn') as any;
+        const submitBtn = this.querySelector('#submitBtn') as UIButton;
         const errorEl = queryElement<HTMLDivElement>(this, '#errorMessage');
 
         if (!form) return;
@@ -35,7 +35,7 @@ export class SignupPage extends HTMLElement {
                 return;
             }
 
-            if (submitBtn) submitBtn.loading = true;
+            if (submitBtn) submitBtn.isProcessing = true;
             try {
                 const result = await http.post<{ success: boolean }>('/api/signup', { name, email, password });
                 if (result.success) {
@@ -47,7 +47,7 @@ export class SignupPage extends HTMLElement {
             } catch {
                 showError('Something went wrong. Please try again.');
             } finally {
-                if (submitBtn) submitBtn.loading = false;
+                if (submitBtn) submitBtn.isProcessing = false;
             }
         });
     }
