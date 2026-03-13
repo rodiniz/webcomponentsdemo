@@ -1,6 +1,8 @@
-import { getPathParams, type UIButton, type UIInput } from '@diniz/webcomponents';
+import { getFormValues, getPathParams, validateForm, type UIButton, type UIInput } from '@diniz/webcomponents';
 import '@diniz/webcomponents';
 import template from "./savecategory.html?raw";
+import { clearFormError, showFormError } from '../shared/formErrorDisplay';
+import { getFirstValidationError } from '../shared/formValidation';
 
 type Category = {
     id: number;
@@ -67,11 +69,20 @@ export class SaveCategoryPage extends HTMLElement {
     private async handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
 
-        const nameInput = this.querySelector('#categoryName') as UIInput | null;
-        const descriptionInput = this.querySelector('#categoryDescription') as UIInput | null;
+        const form = this.querySelector('#categoryForm') as HTMLFormElement | null;
+        if (!form) {
+            return;
+        }
 
-        const name = (nameInput as any)?.value?.trim();
-        const description = (descriptionInput as any)?.value?.trim();
+        const validation = validateForm(form);
+        if (!validation.isValid) {
+            this.showError(getFirstValidationError(validation.errors));
+            return;
+        }
+
+        const values = getFormValues(form, { includeEmpty: true });
+        const name = typeof values.name === 'string' ? values.name.trim() : '';
+        const description = typeof values.description === 'string' ? values.description.trim() : '';
 
         if (!name) {
             this.showError('Category name is required.');
@@ -147,22 +158,12 @@ export class SaveCategoryPage extends HTMLElement {
 
     private showError(message: string): void {
         const error = this.querySelector('#categoryError') as HTMLDivElement | null;
-        if (!error) {
-            return;
-        }
-
-        error.textContent = message;
-        error.style.display = 'block';
+        showFormError(error, message);
     }
 
     private clearError(): void {
         const error = this.querySelector('#categoryError') as HTMLDivElement | null;
-        if (!error) {
-            return;
-        }
-
-        error.textContent = '';
-        error.style.display = 'none';
+        clearFormError(error);
     }
 }
 customElements.define('save-category-page', SaveCategoryPage);

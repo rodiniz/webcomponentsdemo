@@ -1,7 +1,9 @@
 import '@diniz/webcomponents';
 import './signup.css';
 import template from './signup.html?raw';
-import { getFormValues, http, queryElement, UIToast } from '@diniz/webcomponents';
+import { getFormValues, http, queryElement, UIToast, validateForm } from '@diniz/webcomponents';
+import { showFormError } from '../shared/formErrorDisplay';
+import { getFirstValidationError } from '../shared/formValidation';
 
 export class SignupPage extends HTMLElement {
     connectedCallback() {
@@ -14,15 +16,18 @@ export class SignupPage extends HTMLElement {
         if (!form) return;
 
         const showError = (msg: string) => {
-            if (!errorEl) return;
-            errorEl.textContent = msg;
-            errorEl.classList.remove('visible');
-            void errorEl.offsetWidth; // reflow to replay shake
-            errorEl.classList.add('visible');
+            showFormError(errorEl, msg, { mode: 'class', className: 'visible' });
         };
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const validation = validateForm(form);
+            if (!validation.isValid) {
+                showError(getFirstValidationError(validation.errors));
+                return;
+            }
+
             const { name, email, password } = getFormValues(form);
 
             if (!email || !password) {

@@ -1,7 +1,9 @@
 import '@diniz/webcomponents';
 import './login.css';
-import { http, queryElement, type UIButton, type UIInput } from '@diniz/webcomponents';
+import { getFormValues, http, queryElement, validateForm, type UIButton, type UIInput } from '@diniz/webcomponents';
 import template from './login.html?raw';
+import { getFirstValidationError } from '../shared/formValidation';
+import { clearFormError, showFormError } from '../shared/formErrorDisplay';
 type AuthResult = { success: true; message: string, token: string } | { success: false; error: string };
 
 interface FormElements {
@@ -54,8 +56,15 @@ export class LoginPage extends HTMLElement {
     e.preventDefault();
     if (!this.elements) return;
 
-    const email = (this.elements.emailInput as any).value?.trim();
-    const password = (this.elements.passwordInput as any).value?.trim();
+    const validation = validateForm(this.elements.form);
+    if (!validation.isValid) {
+      this.showError(getFirstValidationError(validation.errors));
+      return;
+    }
+
+    const values = getFormValues(this.elements.form);
+    const email = typeof values.email === 'string' ? values.email.trim() : '';
+    const password = typeof values.password === 'string' ? values.password.trim() : '';
 
     if (!email || !password) {
       this.showError('Please enter email and password');
@@ -84,15 +93,12 @@ export class LoginPage extends HTMLElement {
 
   private showError(message: string): void {
     if (!this.elements) return;
-    this.elements.errorMessage.textContent = message;
-    this.elements.errorMessage.classList.add('visible');
-    // force reflow so shake animation replays
-    void this.elements.errorMessage.offsetWidth;
+    showFormError(this.elements.errorMessage, message, { mode: 'class', className: 'visible' });
   }
 
   private clearError(): void {
     if (!this.elements) return;
-    this.elements.errorMessage.classList.remove('visible');
+    clearFormError(this.elements.errorMessage, { mode: 'class', className: 'visible' });
   }
 
   private setSubmitLoading(loading: boolean): void {

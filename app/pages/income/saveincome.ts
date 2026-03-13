@@ -1,6 +1,8 @@
-import { getPathParams, UIDatePicker, type UIButton, type UIInput } from '@diniz/webcomponents';
+import { getFormValues, getPathParams, validateForm, UIDatePicker, type UIButton, type UIInput } from '@diniz/webcomponents';
 import '@diniz/webcomponents';
 import template from './saveincome.html?raw';
+import { clearFormError, showFormError } from '../shared/formErrorDisplay';
+import { getFirstValidationError } from '../shared/formValidation';
 
 type Income = {
     id: number;
@@ -71,14 +73,23 @@ export class SaveIncomePage extends HTMLElement {
     private async handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
 
-        const amountInput = this.querySelector('#incomeAmount') as UIInput | null;
-        const dateInput = this.querySelector('#incomeDate') as UIDatePicker | null;
-        const descriptionInput = this.querySelector('#incomeDescription') as UIInput | null;
+        const form = this.querySelector('#incomeForm') as HTMLFormElement | null;
+        if (!form) {
+            return;
+        }
 
-        const amountRaw = (amountInput as any)?.value;
+        const validation = validateForm(form);
+        if (!validation.isValid) {
+            this.showError(getFirstValidationError(validation.errors));
+            return;
+        }
+
+        const values = getFormValues(form, { includeEmpty: true });
+
+        const amountRaw = values.amount;
         const amount = Number(amountRaw);
-        const description = (descriptionInput as any)?.value?.trim();
-        const date = (dateInput as any)?.value;
+        const description = typeof values.description === 'string' ? values.description.trim() : '';
+        const date = values.date;
 
         if (!Number.isFinite(amount) || amount <= 0) {
             this.showError('Amount must be greater than zero.');
@@ -165,22 +176,12 @@ export class SaveIncomePage extends HTMLElement {
 
     private showError(message: string): void {
         const error = this.querySelector('#incomeError') as HTMLDivElement | null;
-        if (!error) {
-            return;
-        }
-
-        error.textContent = message;
-        error.style.display = 'block';
+        showFormError(error, message);
     }
 
     private clearError(): void {
         const error = this.querySelector('#incomeError') as HTMLDivElement | null;
-        if (!error) {
-            return;
-        }
-
-        error.textContent = '';
-        error.style.display = 'none';
+        clearFormError(error);
     }
 }
 
