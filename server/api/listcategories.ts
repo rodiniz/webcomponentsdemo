@@ -35,9 +35,6 @@ export default defineEventHandler(async (event) => {
 
     return {
         categories,
-        total,
-        limit,
-        top,
-        hasMore: top + categories.length < total,
+        total       
     };
 });

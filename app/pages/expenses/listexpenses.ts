@@ -2,18 +2,18 @@ import type { UIButton, UIModal, UIPagination, UITable, UIToast } from "@diniz/w
 import '@diniz/webcomponents';
 import listCategoriesTemplate from '../generic/listpage.html?raw';
 
-type CategoryRow = { id: number; name: string; description: string };
-type ListCategoriesResponse = {
-    categories: CategoryRow[];
+type ExpenseRow = { id: number; name: string; description: string };
+type ListExpensesResponse = {
+    expenses: ExpenseRow[];
     total?: number;
     limit?: number;
     top?: number;
     hasMore?: boolean;
 };
 
-export class ListCategoriesPage extends HTMLElement {
+export class ListExpensesPage extends HTMLElement {
     deleteModal:UIModal | null = null;
-    categoryIdToDelete: number | null = null;
+    expenseIdToDelete: number | null = null;
     toast: UIToast | null = null;
     private total = 0;
     private limit = 5;
@@ -30,14 +30,18 @@ export class ListCategoriesPage extends HTMLElement {
 
         table.columns = [
                 { key: 'id', label: 'ID', sortable: true ,visible: false},
-                { key: 'name', label: 'Name', sortable: true },
-                { key: 'description', label: 'Description', sortable: true },
+                { key: 'description',  resizable: true, minWidth: 150, maxWidth: 300, label: 'Description', sortable: true },
+                { key: 'categoryDescription', label: 'Category', sortable: true },               
+                { key: 'date', label: 'Date', sortable: true , template: (row) => {
+                    const date = new Date(row.date);
+                    return isNaN(date.getTime()) ? '' : date.toLocaleDateString();
+                }},
                 { key: 'actions', label: 'Actions', sortable: false, template: (row) => {
-                    this.categoryIdToDelete = row.id;
+                    this.expenseIdToDelete = row.id;
                     const editBtn = document.createElement('ui-button');
                     editBtn.textContent = 'Edit';
                     editBtn.addEventListener('click', () => {
-                        window.location.href = `/dashboard/categories/${row.id}`;
+                        window.location.href = `/dashboard/expenses/${row.id}`;
                     });
                     const deleteBtn = document.createElement('ui-button') as UIButton;
                     deleteBtn.variant = 'danger';
@@ -79,7 +83,7 @@ export class ListCategoriesPage extends HTMLElement {
         const createBtn = this.querySelector('#create-category-btn') as UIButton | null;
         if (createBtn) {
             createBtn.addEventListener('click', () => {
-                window.location.href = '/dashboard/categories/save';
+                window.location.href = '/dashboard/expenses/save';
             });
         }
 
@@ -101,8 +105,8 @@ export class ListCategoriesPage extends HTMLElement {
 
         try {
             const pagination = this.querySelector('#pagination-control') as UIPagination | null;
-            const response = await fetch(`/api/listcategories?limit=${this.limit}&top=${this.top}`);
-            const data = await response.json() as ListCategoriesResponse;
+            const response = await fetch(`/api/listexpenses?limit=${this.limit}&top=${this.top}`);
+            const data = await response.json() as ListExpensesResponse;
             this.total = Number(data.total ?? 0);
             
             if (pagination) {
@@ -111,24 +115,24 @@ export class ListCategoriesPage extends HTMLElement {
                 pagination.currentPage = Math.floor(this.top / this.limit) + 1;
             }
 
-            this.renderCategories(data.categories);
+            this.renderExpenses(data.expenses);
         } catch (error) {
             if (this.toast) {
-                this.toast.error(`Error fetching categories: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                this.toast.error(`Error fetching expenses: ${error instanceof Error ? error.message : 'Unknown error'}`);
             }
         }
     }
-    showDeleteConfirm(categoryId:number):void {
-       this.categoryIdToDelete = categoryId;
+    showDeleteConfirm(expenseId:number):void {
+       this.expenseIdToDelete = expenseId;
          if(this.deleteModal){
             this.deleteModal.open();
             }
 
     }
-    renderCategories(categories: CategoryRow[]): void {
+    renderExpenses(expenses: ExpenseRow[]): void {
         const table = this.querySelector('ui-table') as UITable | null;
         if (table) {
-            table.rows = categories;
+            table.rows = expenses;
         }
     }
 
@@ -141,14 +145,14 @@ export class ListCategoriesPage extends HTMLElement {
         if(this.deleteModal){
             this.deleteModal.close();
         }
-        if (!this.categoryIdToDelete) return;
+        if (!this.expenseIdToDelete) return;
 
-        const response = await fetch(`/api/deletecategory/${this.categoryIdToDelete}`, {
+        const response = await fetch(`/api/deleteexpense/${this.expenseIdToDelete}`, {
             method: 'DELETE',
         }).then(r => r.json());
         if (!response.success) {
             if (this.toast) {
-                this.toast.error(`Failed to delete category: ${response.statusMessage || 'Unknown error'}`);
+                this.toast.error(`Failed to delete expense: ${response.statusMessage || 'Unknown error'}`);
             }
             return;
         }
@@ -163,4 +167,4 @@ export class ListCategoriesPage extends HTMLElement {
         this.fetchCategories();
     }
 }
-customElements.define('list-categories-page', ListCategoriesPage);
+customElements.define('list-expenses-page', ListExpensesPage);

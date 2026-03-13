@@ -1,7 +1,7 @@
 import '@diniz/webcomponents';
 import dashboardTemplate from './dashboard.html?raw';
 import './dashboard.css';
-import { createRouter, getIconSvg, UILayoutSidebar } from '@diniz/webcomponents';
+import { createRouter, getIconSvg } from '@diniz/webcomponents';
 
 export class DashboardPage extends HTMLElement {
 	connectedCallback(): void {
@@ -34,6 +34,9 @@ export class DashboardPage extends HTMLElement {
 			 { path: '/categories', component: 'list-categories-page', load: () => import('../category/listCategories') },		
 			 { path: '/categories/save', component: 'save-category-page', load: () => import('../category/savecategory') },
 			 { path: '/categories/:id', component: 'save-category-page', load: () => import('../category/savecategory') },
+			 { path: '/expenses', component: 'list-expenses-page', load: () => import('../expenses/listexpenses') },
+			 { path: '/expenses/save', component: 'save-expense-page', load: () => import('../expenses/saveexpense') },
+			 { path: '/expenses/:id', component: 'save-expense-page', load: () => import('../expenses/saveexpense') }
 			], {
 				outlet:   '#dashboard-outlet', 
 				basePath: '/dashboard',        

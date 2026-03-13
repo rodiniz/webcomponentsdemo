@@ -76,4 +76,18 @@ model Category {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("categories")
+  expenses Expense[]
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  amount      Float
+  description String?
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  date        DateTime
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("expenses")
 }

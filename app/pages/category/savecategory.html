@@ -12,24 +12,27 @@
 						label="Category Name"
 						placeholder="Enter category name"
 						required
+						maxlength="30"
 					></ui-input>
 				</div>
 
 				<div style="margin-bottom: 20px;">
-					<ui-input
+					<ui-textarea
+						rows="4"
+						maxlength="100"
 						id="categoryDescription"
 						name="description"
 						type="text"
 						label="Description"
 						placeholder="Enter category description"
-					></ui-input>
+					></ui-textarea>
 				</div>
 
 				<div id="categoryError" style="display: none; margin-bottom: 16px;"></div>
 
 				<div style="display: flex; justify-content: flex-end; gap: 12px;">
-					<ui-button id="cancelCategoryBtn" type="button" variant="outline" size="sm">Cancel</ui-button>
-					<ui-button id="saveCategoryBtn" type="submit" variant="primary" size="sm">Save Category</ui-button>
+					<ui-button id="cancelCategoryBtn" type="button" variant="outline" size="md">Cancel</ui-button>
+					<ui-button id="saveCategoryBtn" type="submit" variant="primary" size="md">Save Category</ui-button>
 				</div>
 			</form>
 		</div>

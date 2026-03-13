@@ -120,7 +120,7 @@ export class SaveCategoryPage extends HTMLElement {
 
     private async loadCategory(id: number): Promise<void> {
         try {
-            debugger;
+          
             const response = await fetch(`/api/category/${id}`);
             const data = await response.json() as { category?: Category };
             const category = data.category;

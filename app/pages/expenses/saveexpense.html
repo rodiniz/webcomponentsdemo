@@ -1,0 +1,59 @@
+<div style="width: min(94vw, 640px); margin: 0 auto; padding: 20px 0;">
+	<ui-card bg="light" shadow elevation="lg" rounded="true" style="width: 100%; padding: 0;">
+		<div style="padding: 24px;">
+			<h2 id="expenseFormTitle" style="margin: 0 0 20px 0;">Create Expense</h2>
+
+			<form id="expenseForm">
+				
+                <div style="margin-bottom: 20px;">
+					<ui-input
+                        required
+						rows="4"
+						maxlength="50"
+						id="expenseDescription"
+						name="description"
+						label="Description"
+						placeholder="Enter expense description"
+					></ui-input>
+				</div>
+                    <div style="margin-bottom: 16px;">
+
+                      <ui-date-picker
+                        id="expenseDate"
+                        name="date"
+                        label="Date"
+                        placeholder="Select a date"
+                    ></ui-date-picker>
+                    </div>
+                <div style="margin-bottom: 16px;">
+					<ui-input
+						id="expenseAmount"
+						name="amount"
+						type="number"
+						label="Amount"
+						placeholder="Enter amount"
+						required
+					></ui-input>
+				</div>
+
+				<div style="margin-bottom: 16px;">
+					<ui-select
+						id="expenseCategory"
+						name="categoryId"
+						label="Category"
+						placeholder="Select a category"
+					></ui-select>
+				</div>
+
+				
+
+				<div id="expenseError" style="display: none; margin-bottom: 16px;"></div>
+
+				<div style="display: flex; justify-content: flex-end; gap: 12px;margin-top: 100px;">
+					<ui-button id="cancelExpenseBtn" type="button" variant="outline" size="md">Cancel</ui-button>
+					<ui-button id="saveExpenseBtn" type="submit" variant="primary" size="md">Save Expense</ui-button>
+				</div>
+			</form>
+		</div>
+	</ui-card>
+</div>
