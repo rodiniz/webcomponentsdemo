@@ -1,0 +1,48 @@
+<div style="width: min(94vw, 640px); margin: 0 auto; padding: 20px 0;">
+	<ui-card bg="light" shadow elevation="lg" rounded="true" style="width: 100%; padding: 0;">
+		<div style="padding: 24px;">
+			<h2 id="incomeFormTitle" style="margin: 0 0 20px 0;">Create Income</h2>
+
+			<form id="incomeForm">
+				<div style="margin-bottom: 20px;">
+					<ui-input
+						required
+						rows="4"
+						maxlength="50"
+						id="incomeDescription"
+						name="description"
+						label="Description"
+						placeholder="Enter income description"
+					></ui-input>
+				</div>
+
+				<div style="margin-bottom: 16px;">
+					<ui-date-picker
+						id="incomeDate"
+						name="date"
+						label="Date"
+						placeholder="Select a date"
+					></ui-date-picker>
+				</div>
+
+				<div style="margin-bottom: 16px;">
+					<ui-input
+						id="incomeAmount"
+						name="amount"
+						type="number"
+						label="Amount"
+						placeholder="Enter amount"
+						required
+					></ui-input>
+				</div>
+
+				<div id="incomeError" style="display: none; margin-bottom: 16px;"></div>
+
+				<div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 100px;">
+					<ui-button id="cancelIncomeBtn" type="button" variant="outline" size="md">Cancel</ui-button>
+					<ui-button id="saveIncomeBtn" type="submit" variant="primary" size="md">Save Income</ui-button>
+				</div>
+			</form>
+		</div>
+	</ui-card>
+</div>

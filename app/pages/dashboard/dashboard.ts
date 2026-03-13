@@ -36,7 +36,10 @@ export class DashboardPage extends HTMLElement {
 			 { path: '/categories/:id', component: 'save-category-page', load: () => import('../category/savecategory') },
 			 { path: '/expenses', component: 'list-expenses-page', load: () => import('../expenses/listexpenses') },
 			 { path: '/expenses/save', component: 'save-expense-page', load: () => import('../expenses/saveexpense') },
-			 { path: '/expenses/:id', component: 'save-expense-page', load: () => import('../expenses/saveexpense') }
+			 { path: '/expenses/:id', component: 'save-expense-page', load: () => import('../expenses/saveexpense') },
+			 { path: '/incomes', component: 'list-income-page', load: () => import('../income/listincome') },
+			 { path: '/incomes/save', component: 'save-income-page', load: () => import('../income/saveincome') },
+			 { path: '/incomes/:id', component: 'save-income-page', load: () => import('../income/saveincome') }
 			], {
 				outlet:   '#dashboard-outlet', 
 				basePath: '/dashboard',        

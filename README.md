@@ -4,7 +4,7 @@
 
 This project is a practical demo of [`@diniz/webcomponents`](https://www.npmjs.com/package/@diniz/webcomponents) using a Vite + Nitro full-stack setup.
 
-It showcases authentication screens, a dashboard layout, and a complete Category CRUD flow with reusable Web Components.
+It showcases authentication screens, a dashboard layout, and complete Category, Expense, and Income CRUD flows with reusable Web Components.
 
 ## Tech stack
 
@@ -57,6 +57,14 @@ The demo uses the following components and utilities:
 	- Create/Edit category form with validation
 	- Delete confirmation using `ui-modal`
 	- Success/error messaging with `ui-toast`
+- Expense CRUD:
+	- List expenses with category and date
+	- Create/Edit expense form with amount/date validation
+	- Delete expense with confirmation modal
+- Income CRUD:
+	- List incomes with amount and date
+	- Create/Edit income form with amount/date validation
+	- Delete income with confirmation modal
 - Backend API integration with typed frontend usage
 - Persistent data in SQLite via Prisma migrations
 
@@ -73,6 +81,12 @@ The demo uses the following components and utilities:
 - `/dashboard/categories` → Category list
 - `/dashboard/categories/save` → Create category
 - `/dashboard/categories/:id` → Edit category
+- `/dashboard/expenses` → Expense list
+- `/dashboard/expenses/save` → Create expense
+- `/dashboard/expenses/:id` → Edit expense
+- `/dashboard/incomes` → Income list
+- `/dashboard/incomes/save` → Create income
+- `/dashboard/incomes/:id` → Edit income
 
 ## API routes (Nitro)
 
@@ -83,6 +97,16 @@ The demo uses the following components and utilities:
 - `PUT /api/updatecategory`
 - `GET /api/category/:id`
 - `DELETE /api/deletecategory/:id`
+- `GET /api/listexpenses`
+- `POST /api/createexpense`
+- `PUT /api/updateexpense`
+- `GET /api/expense/:id`
+- `DELETE /api/deleteexpense/:id`
+- `GET /api/listincomes`
+- `POST /api/createincome`
+- `PUT /api/updateincome`
+- `GET /api/income/:id`
+- `DELETE /api/deleteincome/:id`
 
 ## Getting started
 
