@@ -133,3 +133,78 @@ npm run preview
 ```
 
 For deployment options, see the [Nitro documentation](https://v3.nitro.build/deploy).
+
+## Free fullstack deploy (Render + Turso)
+
+This app can run as a single fullstack service on Render (free web service), with Turso as the free persistent SQLite/libSQL database.
+
+### 1) Create a Turso database
+
+- Create a DB in Turso and get:
+	- `DATABASE_URL` (libsql URL)
+	- `TURSO_AUTH_TOKEN`
+- In Render, set `DATABASE_URL` to include the token, for example:
+
+```bash
+DATABASE_URL=libsql://your-db-name-your-org.turso.io?authToken=YOUR_TURSO_AUTH_TOKEN
+```
+
+### 2) Create Render Web Service
+
+- Runtime: Node
+- Build command:
+
+```bash
+npm ci && npx prisma generate && npm run build
+```
+
+- Start command:
+
+```bash
+node .output/server/index.mjs
+```
+
+- Environment variables:
+	- `NODE_ENV=production`
+	- `HOST=0.0.0.0`
+	- `PORT=10000`
+	- `DATABASE_URL=<your libsql url with authToken>`
+	- `BETTER_AUTH_SECRET=<long-random-secret>`
+	- `BETTER_AUTH_URL=https://<your-render-service>.onrender.com`
+
+### 3) Enable CI/CD with GitHub Actions
+
+This repository includes [Deploy workflow](.github/workflows/deploy-render.yml) that:
+
+- Runs on push to `main` (and manual dispatch)
+- Installs deps, generates Prisma client, and builds
+- Triggers Render deploy hook
+
+Add this GitHub secret in your repo:
+
+- `RENDER_DEPLOY_HOOK_URL`: from Render service settings (Deploy Hook)
+
+After setting the secret, every push to `main` deploys automatically.
+
+## Docker deployment
+
+This repository includes a production multi-stage Docker build in `DockerFile`.
+
+Build image:
+
+```bash
+docker build -f DockerFile -t webcomponentsdemo:latest .
+```
+
+Run container:
+
+```bash
+docker run --rm -p 3000:3000 \
+	-e NODE_ENV=production \
+	-e HOST=0.0.0.0 \
+	-e PORT=3000 \
+	-e DATABASE_URL="libsql://<db>.turso.io?authToken=<token>" \
+	-e BETTER_AUTH_SECRET="<long-random-secret>" \
+	-e BETTER_AUTH_URL="http://localhost:3000" \
+	webcomponentsdemo:latest
+```
