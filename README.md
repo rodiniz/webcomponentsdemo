@@ -14,34 +14,6 @@ It showcases authentication screens, a dashboard layout, and complete Category, 
 - Database/ORM: SQLite + Prisma
 - Auth: better-auth (email/password)
 
-## Components used from `@diniz/webcomponents`
-
-The demo uses the following components and utilities:
-
-### UI Components
-
-- `ui-button`
-- `ui-input`
-- `ui-toast`
-- `ui-modal`
-- `ui-table`
-- `ui-card`
-- `ui-layout`
-- `ui-layout-header`
-- `ui-layout-sidebar`
-- `ui-layout-main`
-- `ui-pagination`
-
-
-### Utilities
-
-- `createRouter` (root and nested dashboard routing)
-- `applyTheme('shadcn')`
-- `getFormValues`
-- `queryElement`
-- `getPathParams`
-- `http` helper (`get`/`post`)
-- `getIconSvg`
 
 ## Features demonstrated
 
@@ -73,40 +45,6 @@ The demo uses the following components and utilities:
 - Standards-based UI: built on native Custom Elements instead of framework runtime abstractions
 - Lower overhead: minimal client runtime with fast startup and straightforward bundles via Vite
 - Simpler stack: fewer concepts to learn, easier debugging, and clean interoperability with any backend
-
-## App routes
-
-- `/` → Login
-- `/signup` → Signup
-- `/dashboard/categories` → Category list
-- `/dashboard/categories/save` → Create category
-- `/dashboard/categories/:id` → Edit category
-- `/dashboard/expenses` → Expense list
-- `/dashboard/expenses/save` → Create expense
-- `/dashboard/expenses/:id` → Edit expense
-- `/dashboard/incomes` → Income list
-- `/dashboard/incomes/save` → Create income
-- `/dashboard/incomes/:id` → Edit income
-
-## API routes (Nitro)
-
-- `POST /api/signin`
-- `POST /api/signup`
-- `GET /api/listcategories`
-- `POST /api/createcategory`
-- `PUT /api/updatecategory`
-- `GET /api/category/:id`
-- `DELETE /api/deletecategory/:id`
-- `GET /api/listexpenses`
-- `POST /api/createexpense`
-- `PUT /api/updateexpense`
-- `GET /api/expense/:id`
-- `DELETE /api/deleteexpense/:id`
-- `GET /api/listincomes`
-- `POST /api/createincome`
-- `PUT /api/updateincome`
-- `GET /api/income/:id`
-- `DELETE /api/deleteincome/:id`
 
 ## Getting started
 
