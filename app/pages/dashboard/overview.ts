@@ -1,6 +1,7 @@
 import '@diniz/webcomponents';
 import Chart from 'chart.js/auto';
 import template from './overview.html?raw';
+import { http } from '@diniz/webcomponents';
 
 type ExpenseByCategoryItem = {
     category: string;
@@ -128,12 +129,9 @@ export class DashboardOverviewPage extends HTMLElement {
             : '/api/dashboardsummary';
 
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                return;
-            }
-
-            const data = await response.json() as DashboardSummaryResponse;
+            const response = await http.get(url);
+          
+            const data = await response as DashboardSummaryResponse;
 
             const incomeTotal = this.querySelector('#income-total') as HTMLElement | null;
             const expenseTotal = this.querySelector('#expense-total') as HTMLElement | null;

@@ -4,7 +4,7 @@
  * of connectedCallback logic become a single call (DRY).
  */
 
-import type { UIButton, UIModal, UIPagination, UITable, UIToast } from '@diniz/webcomponents';
+import { http, type UIButton, type UIModal, type UIPagination, type UITable, type UIToast } from '@diniz/webcomponents';
 import listTemplate from '../generic/listpage.html?raw';
 
 export interface ListPageConfig<TRow> {
@@ -115,8 +115,8 @@ export function setupListPage<TRow extends { id: number }>(
 
     async function fetchAndRender(): Promise<void> {
         try {
-            const response = await fetch(config.fetchUrl(state.limit, state.top));
-            const data = await response.json() as Record<string, unknown>;
+            const response = await http.get(config.fetchUrl(state.limit, state.top));
+            const data = await response as Record<string, unknown>;
             state.total = Number(data['total'] ?? 0);
 
             if (pagination) {
