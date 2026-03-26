@@ -91,6 +91,12 @@ body:has(login-page) {
   margin-bottom: 20px;
 }
 
+.auth-forgot {
+  text-align: right;
+  font-size: 0.8rem;
+  margin: -10px 0 18px;
+}
+
 .auth-error {
   display: none;
   padding: 10px 14px;

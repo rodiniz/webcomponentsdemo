@@ -1,6 +1,8 @@
 {
   "extends": ["nitro/tsconfig"],
   "compilerOptions": {
+    "moduleResolution": "bundler",
+    "types": ["vite/client"],
     "paths": {
       "~/*": ["./*"]
     }

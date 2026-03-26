@@ -77,8 +77,8 @@ export default defineEventHandler(async (event) => {
     ]);
 
     const categoryIds = expenseGroups
-        .map((group) => group.categoryId)
-        .filter((categoryId): categoryId is number => categoryId !== null);
+        .map((group: { categoryId: number | null; _sum: { amount: number | null } }) => group.categoryId)
+        .filter((categoryId: number | null): categoryId is number => categoryId !== null);
 
     const categories = categoryIds.length > 0
         ? await prisma.category.findMany({
@@ -88,12 +88,12 @@ export default defineEventHandler(async (event) => {
         : [];
 
     const categoryNameById = new Map<number, string>();
-    categories.forEach((category) => {
+    categories.forEach((category: { id: number; name: string }) => {
         categoryNameById.set(category.id, category.name);
     });
 
     const expenseByCategory: ExpenseByCategoryItem[] = expenseGroups
-        .map((group) => {
+        .map((group: { categoryId: number | null; _sum: { amount: number | null } }) => {
             const total = Number(group._sum.amount ?? 0);
             if (total <= 0) {
                 return null;
@@ -106,8 +106,8 @@ export default defineEventHandler(async (event) => {
                 total,
             };
         })
-        .filter((item): item is ExpenseByCategoryItem => item !== null)
-        .sort((a, b) => b.total - a.total);
+        .filter((item: ExpenseByCategoryItem | null): item is ExpenseByCategoryItem => item !== null)
+        .sort((a: ExpenseByCategoryItem, b: ExpenseByCategoryItem) => b.total - a.total);
 
     const incomeTotal = Number(incomeAgg._sum.amount ?? 0);
     const expenseTotal = Number(expenseAgg._sum.amount ?? 0);

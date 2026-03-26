@@ -1,12 +1,5 @@
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createError, defineEventHandler, readBody } from "nitro/h3";
-import { prisma } from "../lib/prisma";
-
-const auth = betterAuth({
-    database: prismaAdapter(prisma, { provider: "sqlite" }),
-    emailAndPassword: { enabled: true },
-});
+import { auth } from "../lib/auth";
 
 export default defineEventHandler(async (event) => {
     try {

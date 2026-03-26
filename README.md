@@ -93,7 +93,7 @@ DATABASE_URL=libsql://your-db-name-your-org.turso.io?authToken=YOUR_TURSO_AUTH_T
 - Build command:
 
 ```bash
-npm ci && npx prisma generate && npm run build
+npm ci --include=dev && npx prisma generate && npm run build
 ```
 
 - Start command:

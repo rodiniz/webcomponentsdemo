@@ -1,17 +1,10 @@
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createError, defineEventHandler, readBody } from "nitro/h3";
-import { prisma } from "../lib/prisma";
-
-const auth = betterAuth({
-    database: prismaAdapter(prisma, { provider: "sqlite" }),
-    emailAndPassword: { enabled: true },
-});
+import { auth } from "../lib/auth";
 
 export default defineEventHandler(async (event) => {
     try {
-        const body = await readBody<{ email: string; password: string; name?: string }>(event);
-        const { email, password, name } = body ?? {};
+        const body = await readBody<{ email: string; password: string }>(event);
+        const { email, password } = body ?? {};
 
         if (!email || !password) {
             throw createError({
@@ -20,7 +13,7 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        const result = await auth.api.signUpEmail({
+        await auth.api.signUpEmail({
             body: {
                 name: email,
                 email,
